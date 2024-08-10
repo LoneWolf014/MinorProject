@@ -39,10 +39,10 @@ class CreateLabel:
         screen.blit(self.surface, self.surface_rect)
 
 class Button:
-    def __init__(self, screen, text, width, height, pos, elevation, font, printText):
+    def __init__(self, screen, text, width, height, pos, elevation, font, onclick):
         self.screen = screen
         self.font = font
-        self.printText = printText
+        self.onClick = onclick
         # Core Attributes
         self.pressed = False
         self.elevation = elevation
@@ -85,12 +85,7 @@ class Button:
             else:
                 self.dynamicElevation = self.elevation
                 if self.pressed == True:
-                    if(self.printText == "Start Button"):
-                        print("Recording Started")
-                    elif(self.printText == "Stop Button"):
-                        print("Recording Stopped")
-                    else:
-                        print(self.printText)
+                    self.onClick()
                     self.pressed = False
         else:
             self.dynamicElevation = self.elevation
