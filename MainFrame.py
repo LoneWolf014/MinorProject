@@ -50,6 +50,7 @@ def CameraID(DC):
     if(DroidCam == True):
         print("System able to take input of IP and Port")
         mouse_pos = pygame.mouse.get_pos()
+        # IP Box --------------------------------------------------------#
         TextBox = pygame.Rect(TI_L_X+275, TI_L_Y+10, 200, 30)
         if(TextBox.collidepoint(mouse_pos)):
             IP = True
@@ -57,24 +58,33 @@ def CameraID(DC):
 
         if IP == True:
             TI_1 = btn_font.render(IPTxt, True, white)
-
+        # ----------------------------------------------------------------#
+        # Port Box -------------------------------------------------------#
         TextBox2 = pygame.Rect(TI_L_X+275, TI_L_Y+60, 200, 30)
         if(TextBox2.collidepoint(mouse_pos)):
             Port = True
             IP = False
         if Port == True:
             TI_2 = btn_font.render(PortTxt, True, white)
-            
+        # ------------ ----------------------------------------------------#
         pygame.draw.rect(M_Frame, Lust, TextBox, 4)
         pygame.draw.rect(M_Frame, Lust, TextBox2, 4)
     else:
-        IPTxt = ''
-        PortTxt = ''
         print("System is using WebCam")
 
 def W_Cam():
     global DroidCam
+    global IPTxt
+    global PortTxt
+    global TI_1
+    global TI_2
+
     DroidCam = False
+    IPTxt = ''
+    PortTxt = ''
+
+    TI_1 = btn_font.render(IPTxt, True, white)
+    TI_2 = btn_font.render(PortTxt, True, white)
     
 def D_Cam():
     global DroidCam
