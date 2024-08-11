@@ -36,6 +36,9 @@ IP = False
 Port = False
 TI_1 = btn_font.render(IPTxt, True, white)
 TI_2 = btn_font.render(PortTxt, True, white)
+
+TextBox_Pressed = False
+TextBox2_Pressed = False
 # Button Functions -------------------------------------------------------------------------------#
 def CameraID(DC):
     global DroidCam
@@ -46,31 +49,46 @@ def CameraID(DC):
     global IPTxt
     global PortTxt
 
+    global TextBox_Pressed
+    global TextBox2_Pressed
+
     DroidCam = DC
     if(DroidCam == True):
-        print("System able to take input of IP and Port")
+        # print("System able to take input of IP and Port")
         mouse_pos = pygame.mouse.get_pos()
+
         # IP Box --------------------------------------------------------#
         TextBox = pygame.Rect(TI_L_X+275, TI_L_Y+10, 200, 30)
         if(TextBox.collidepoint(mouse_pos)):
-            IP = True
-            Port = False
+            if(pygame.mouse.get_pressed()[0]):
+                TextBox_Pressed = True
+                TextBox2_Pressed = False
+                IP = True
+                Port = False
 
-        if IP == True:
-            TI_1 = btn_font.render(IPTxt, True, white)
+        if(TextBox_Pressed == True):
+            if (IP == True):
+                TI_1 = btn_font.render(IPTxt, True, white)
         # ----------------------------------------------------------------#
         # Port Box -------------------------------------------------------#
         TextBox2 = pygame.Rect(TI_L_X+275, TI_L_Y+60, 200, 30)
         if(TextBox2.collidepoint(mouse_pos)):
-            Port = True
-            IP = False
-        if Port == True:
-            TI_2 = btn_font.render(PortTxt, True, white)
+            if(pygame.mouse.get_pressed()[0]):
+                TextBox_Pressed = False
+                TextBox2_Pressed = True
+                Port = True
+                IP = False
+        
+        if(TextBox2_Pressed == True):
+            if (Port == True):
+                TI_2 = btn_font.render(PortTxt, True, white)
+
         # ------------ ----------------------------------------------------#
         pygame.draw.rect(M_Frame, Lust, TextBox, 4)
         pygame.draw.rect(M_Frame, Lust, TextBox2, 4)
     else:
-        print("System is using WebCam")
+        # print("System is using WebCam")
+        None
 
 def W_Cam():
     global DroidCam
@@ -92,8 +110,19 @@ def D_Cam():
 
 def Start():
     print("Recording Started")
+
 def Stop():
     print("Recording Stopped")
+
+def Submit():
+    if (DroidCam == True):
+        if (IPTxt != '' and PortTxt != ''):
+            print("IP : ", IPTxt)
+            print("Port : ", PortTxt)
+        else:
+            print("Fill the IPTxt and PortTxt")
+    else:
+        print("It is using Webcam", 0)
 # ------------------------------------------------------------------------------------------------- #
 radio1 = Button(M_Frame, "Webcam", 100, 30, (400, 60), 6, btn_font, onclick = W_Cam)
 radio2 = Button(M_Frame, "DroidCam", 100, 30, (400, 110), 6, btn_font, onclick = D_Cam)
@@ -101,7 +130,7 @@ radio2 = Button(M_Frame, "DroidCam", 100, 30, (400, 110), 6, btn_font, onclick =
 button1 = Button(M_Frame, "Start Recording", 200, 50, (175, 475), 6, btn_font, onclick = Start)
 button2 = Button(M_Frame, "Stop Recording", 200, 50, (425, 475), 6, btn_font, onclick = Stop)
 
-
+submit = Button(M_Frame, "Submit", 100, 30, (425, 312), 6, btn_font, onclick= Submit)
 
 def drawPanels():
     GUIFrame.Create_GUI_Panel()
@@ -126,6 +155,8 @@ def drawButtons():
     button1.draw()
     button2.draw()
 
+    submit.draw()
+
 def draw():
     drawPanels()
     drawLabels()
@@ -148,9 +179,15 @@ while(Run):
         if (DroidCam == True) :
             if event.type == pygame.KEYDOWN:
                 if IP == True:
-                    IPTxt += event.unicode
+                    if event.key == pygame.K_BACKSPACE:
+                        IPTxt = IPTxt[0:-1]
+                    else:
+                        IPTxt += event.unicode
                 if Port == True:
-                    PortTxt += event.unicode
+                    if event.key == pygame.K_BACKSPACE:
+                        PortTxt = PortTxt[0:-1]
+                    else:
+                        PortTxt += event.unicode
 
     M_Frame.fill((BroncosNavy))
 
