@@ -6,6 +6,8 @@ from ColorPalette import *
 from GUIPanel import *
 from Tools import *
 
+# Check Point Reached
+
 pygame.init()
 btn_font = pygame.font.Font("Fonts/unispace bd.ttf", 18)
 
@@ -36,6 +38,9 @@ IP = False
 Port = False
 TI_1 = btn_font.render(IPTxt, True, white)
 TI_2 = btn_font.render(PortTxt, True, white)
+
+# Added press buttons and cleaned the buttons code
+
 
 TextBox_Pressed = False
 TextBox2_Pressed = False
